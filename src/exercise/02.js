@@ -2,15 +2,33 @@
 // http://localhost:3000/isolated/exercise/02.js
 
 import * as React from 'react'
+import {useState, useEffect} from 'react'
 
 function Greeting({initialName = ''}) {
   // 🐨 initialize the state to the value from localStorage
   // 💰 window.localStorage.getItem('name') ?? initialName
-  const [name, setName] = React.useState(initialName)
+
+  const getInitalName = (initialNameProp) => {
+    if (window.localStorage.getItem('name')) {
+      return window.localStorage.getItem('name')
+    }
+    if (initialNameProp) {
+      return initialNameProp
+    }
+    return ''
+  }
+
+  const [name, setName] = useState(getInitalName(initialName))
+
 
   // 🐨 Here's where you'll use `React.useEffect`.
   // The callback should set the `name` in localStorage.
   // 💰 window.localStorage.setItem('name', name)
+
+  useEffect( () => {
+    console.log("in useEffect")
+    window.localStorage.setItem('name', name)
+  }, [name])
 
   function handleChange(event) {
     setName(event.target.value)
@@ -27,7 +45,7 @@ function Greeting({initialName = ''}) {
 }
 
 function App() {
-  return <Greeting />
+  return <Greeting initialName='gigel' />
 }
 
 export default App
