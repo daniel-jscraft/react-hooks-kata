@@ -2,30 +2,18 @@
 // http://localhost:3000/isolated/exercise/06.js
 
 import * as React from 'react'
-
-import {useState, useEffect} from 'react'
 // 🐨 you'll want the following additional things from '../pokemon':
 // fetchPokemon: the function we call to get the pokemon info
 // PokemonInfoFallback: the thing we show while we're loading the pokemon info
 // PokemonDataView: the stuff we use to display the pokemon info
-import {PokemonForm, fetchPokemon, PokemonDataView , PokemonInfoFallback} from '../pokemon'
+import {PokemonForm} from '../pokemon'
 
 function PokemonInfo({pokemonName}) {
-  let [pokemon, setPokemon] = useState()
-
-  useEffect( () => {
-    if(pokemonName) {
-      console.log('making the call')
-      setPokemon(null)
-      fetchPokemon(pokemonName).then(
-        (response) => setPokemon(pokemon),
-        (error) => {
-          console.log("error")
-          console.log(error)
-        } 
-      )
-    }
-  }, [pokemonName])
+  // 🐨 Have state for the pokemon (null)
+  // 🐨 use React.useEffect where the callback should be called whenever the
+  // pokemon name changes.
+  // 💰 DON'T FORGET THE DEPENDENCIES ARRAY!
+  // 💰 if the pokemonName is falsy (an empty string) then don't bother making the request (exit early).
   // 🐨 before calling `fetchPokemon`, clear the current pokemon state by setting it to null.
   // (This is to enable the loading state when switching between different pokemon.)
   // 💰 Use the `fetchPokemon` function to fetch a pokemon by its name:
@@ -38,24 +26,7 @@ function PokemonInfo({pokemonName}) {
   //   3. pokemon: <PokemonDataView pokemon={pokemon} />
 
   // 💣 remove this
-  // return (
-  //   pokemonName ? (
-  //     pokemon ? (
-  //       (<PokemonDataView pokemon={pokemon} />) :
-  //       (<PokemonInfoFallback name={pokemonName})) :
-  //     'Submit a pokemon'
-  //   )
-  // )
-
-  if(pokemonName){
-    if(pokemon) 
-      return (<PokemonDataView pokemon={pokemon} />)
-    else 
-      return (<PokemonInfoFallback name={pokemonName} />)
-  }
-  else {
-    return 'Submit a pokemon'
-  }
+  return 'TODO'
 }
 
 function App() {
