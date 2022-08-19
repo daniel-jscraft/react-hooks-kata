@@ -61,9 +61,8 @@ function fetchPokemon(name, delay = 1500) {
 }
 
 function PokemonInfoFallback({name}) {
-  const initialName = React.useRef(name).current
   const fallbackPokemonData = {
-    name: initialName,
+    name: '',
     number: 'XXX',
     image: '/img/pokemon/fallback-pokemon.jpg',
     attacks: {
