@@ -4,52 +4,46 @@
 import * as React from 'react'
 
 import {useState, useEffect} from 'react'
-// 🐨 you'll want the following additional things from '../pokemon':
-// fetchPokemon: the function we call to get the pokemon info
-// PokemonInfoFallback: the thing we show while we're loading the pokemon info
-// PokemonDataView: the stuff we use to display the pokemon info
 import {PokemonForm, fetchPokemon, PokemonDataView } from '../pokemon'
 
 function PokemonInfo({pokemonName}) {
-  let [pokemon, setPokemon] = useState()
-  let [error, setError] = useState()
-  let [status, setStatus] = useState('idle')
+  let [status, setStatus] = useState({code:'idle'})
 
   useEffect( () => {
     if(pokemonName) {
-
-      setPokemon(null)
-      setError(null)
-      setStatus('pending')
-
+      setStatus({code:'pending'})
       fetchPokemon(pokemonName).then(
-        (response) => {
-          setPokemon(response)
-          setStatus('resolved')
+        (data) => {
+          setStatus({
+            code : 'resolved',
+            data
+          })
         },
         (error) => {
-          setError(error)
-          setStatus('rejected')
+          setStatus({
+            code : 'rejected',
+            error
+          })
         } 
       )
     }
   }, [pokemonName])
 
-  if (status === 'pending') {
+  if (status.code === 'pending') {
     return 'Loading ....'
   }
 
-  if (status === 'resolved') {
-    return(<PokemonDataView pokemon={pokemon} />)
+  if (status.code === 'resolved') {
+    return(<PokemonDataView pokemon={status.data} />)
   }
 
-  if (status === 'rejected') {
+  if (status.code === 'rejected') {
     return (<div role="alert">
-      There was an error: <pre style={{whiteSpace: 'normal'}}>{error.message}</pre>
+      There was an error: <pre style={{whiteSpace: 'normal'}}>{status.error.message}</pre>
     </div>)
   }
 
-  if (status === 'idle') {
+  if (status.code === 'idle') {
     return 'Submit a pokemon'
   }
 }
